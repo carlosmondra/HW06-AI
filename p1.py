@@ -34,7 +34,8 @@ def get_all_MDP_data (file_name):
 def max_action_over_sum(index, all_actions, U):
     all_action_expectation = []
     for action in all_actions:
-        P_s_prime_given_s_a = action[i]
+        P_s_prime_given_s_a = action[index]
+        #element wise multiplication
         action_expectation = sum([P_s_prime_given_s_a[j] * U[j] for j in range(len(U))])
         all_action_expectation.append(action_expectation)
     return max(all_action_expectation)
@@ -47,23 +48,29 @@ size, rewards, Left, Up, Right, Down = get_all_MDP_data (file_name)
 all_actions = [Left, Up, Right, Down]
 
 #initialize Utility array 
-U = [0] * size
+U1 = [0] * size
 gamma = 1
 epsilon = 0.001
+
 
 k = 0
 delta = 0
 while(True):
-    U_cpy = U.copy()
+    U = U1.copy()
     
     for i in range(size):
-        U_cpy[i] = rewards[i] + gamma * max_action_over_sum(i, all_actions, U)
-        delta = max(delta, abs(U[i])-abs(U_cpy[i]) )
-    
+        U1[i] = rewards[i] + gamma * max_action_over_sum(i, all_actions, U)
+        delta = max(delta, abs(U[i] - U1[i]) )
+
     if (delta < epsilon):
         break
     
+    
+    
     k = k + 1
-    if (k > 1000):
+    if (k > 100000):
         print("k BREAK!")
         break
+    
+    
+print(U1)
