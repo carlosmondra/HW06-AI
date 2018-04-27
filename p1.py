@@ -56,7 +56,7 @@ def run_value_iteration (file_name):
     #Value iteration algorithm
     k = 0
     while(True):
-        U = U1.copy()
+        U = U1[:]
         delta = 0
         
         for i in range(size):
