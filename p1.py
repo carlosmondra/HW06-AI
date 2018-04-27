@@ -41,7 +41,7 @@ def max_action_over_sum(index, all_actions, U):
     return max(all_action_expectation)
 
 
-file_name = "GW1.txt"
+file_name = "GW2.txt"
 
 size, rewards, Left, Up, Right, Down = get_all_MDP_data (file_name)
 
@@ -54,13 +54,14 @@ epsilon = 0.001
 
 
 k = 0
-delta = 0
+
 while(True):
     U = U1.copy()
+    delta = 0
     
     for i in range(size):
         U1[i] = rewards[i] + gamma * max_action_over_sum(i, all_actions, U)
-        delta = max(delta, abs(U[i] - U1[i]) )
+        delta = max(delta, abs(U1[i] - U[i]))
 
     if (delta < epsilon):
         break
@@ -68,7 +69,7 @@ while(True):
     
     
     k = k + 1
-    if (k > 100000):
+    if (k > 10000):
         print("k BREAK!")
         break
     
